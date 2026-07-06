@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luminari</title>
+    <!-- Modern premium font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Desktop Phone Frame Mockup -->
+<div class="desktop-wrapper">
+    <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-viewport">
+            
+            <!-- SCREEN: AUTH (LOGIN / REGISTER) -->
+            <div id="screen-auth" class="screen active fade-in">
+                <div class="auth-header">
+                    <!-- Luminari Logo SVG -->
+                    <svg viewBox="0 0 100 100" width="80" height="80" class="app-logo">
+                        <line x1="30" y1="50" x2="70" y2="25" stroke="var(--primary-light)" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="30" y1="50" x2="75" y2="50" stroke="var(--primary-light)" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="30" y1="50" x2="70" y2="75" stroke="var(--primary-light)" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="30" cy="50" r="16" fill="var(--primary-color)" filter="drop-shadow(0 0 8px var(--primary-glow))"/>
+                        <circle cx="70" cy="25" r="9" fill="var(--primary-light)" filter="drop-shadow(0 0 4px var(--primary-glow))"/>
+                        <circle cx="75" cy="50" r="9" fill="var(--primary-light)" filter="drop-shadow(0 0 4px var(--primary-glow))"/>
+                        <circle cx="70" cy="75" r="9" fill="var(--primary-light)" filter="drop-shadow(0 0 4px var(--primary-glow))"/>
+                    </svg>
+                    <h1>Luminári</h1>
+                    <p class="slogan">Pomóżmy uczniom naprawdę zrozumieć!</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
+                    <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="example@mail.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Пароль</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="form-register" class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Имя</label>
+                        <input type="text" placeholder="Как вас называть?" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Кто вы?</label>
+                        <select required>
+                            <option value="" disabled selected>Выберите роль</option>
+                            <option value="primary">Ученик начальных классов</option>
+                            <option value="middle">Ученик средней школы</option>
+                            <option value="student">Студент</option>
+                            <option value="other">Просто подтянуть предмет</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="example@mail.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Пароль</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Создать аккаунт</button>
+                </form>
+            </div>
+
+            <!-- SCREEN: MAIN APP SHELL -->
+            <div id="screen-app" class="screen">
+                
+                <!-- TOP HEADER -->
+                <header class="app-header">
+                    <div class="streak-badge">
+                        🔥 <span id="streak-count">2</span>
+                    </div>
+                    <div class="header-logo">
+                        <span>Luminári</span>
+                    </div>
+                    <div class="profile-mini" onclick="switchTab('tab-profile')">
+                        <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=Felix" alt="avatar">
+                    </div>
+                </header>
+
+                <!-- MAIN CONTENT AREA -->
+                <div class="app-content">
+                    
+                    <!-- TAB: LEARNING (ОБУЧЕНИЕ) -->
+                    <div id="tab-learning" class="tab-pane active fade-in">
+                        <div class="learning-header">
+                            <h2>Обучение</h2>
+                            <p>Продолжайте изучать термины</p>
+                        </div>
+
+                        <!-- Main Actions -->
+                        <div class="learning-actions">
+                            <!-- Show if there's progress -->
+                            <button class="btn-primary btn-large btn-continue" onclick="startTestFlow(true)">
+                                <span class="icon">▶️</span> Продолжить
+                                <small>Биология: Клетки</small>
+                            </button>
+
+                            <button class="btn-secondary btn-large" onclick="openSubjectSelection()">
+                                <span class="icon">➕</span> Новая игра
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- TAB: DICTIONARY (СПРАВОЧНИК) -->
+                    <div id="tab-dictionary" class="tab-pane fade-in">
+                        <div class="dict-header">
+                            <h2>Справочник</h2>
+                        </div>
+                        <div class="search-bar">
+                            <input type="text" id="dict-search" placeholder="Поиск слова (pl/ru/uk)..." oninput="filterDictionary()">
+                        </div>
+                        <div class="dict-filters">
+                            <button class="filter-btn active" onclick="setDictFilter('all')">Все</button>
+                            <button class="filter-btn" onclick="setDictFilter('math')">Математика</button>
+                            <button class="filter-btn" onclick="setDictFilter('biology')">Биология</button>
+                            <button class="filter-btn" onclick="setDictFilter('chemistry')">Химия</button>
+                        </div>
+                        <div class="dict-list" id="dict-list-container">
+                            <!-- Rendered via JS -->
+                        </div>
+                    </div>
+
+                    <!-- TAB: PROFILE (ПРОФИЛЬ) -->
+                    <div id="tab-profile" class="tab-pane fade-in">
+                        <div class="profile-header">
+                            <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=Felix" alt="avatar" class="profile-avatar-large">
+                            <h2 id="profile-name">Студент</h2>
+                            <p class="role-text">Ученик средней школы</p>
+                        </div>
+
+                        <div class="profile-stats">
+                            <div class="stat-box">
+                                <h3>🔥 2</h3>
+                                <span>Дня подряд</span>
+                            </div>
+                            <div class="stat-box">
+                                <h3>120</h3>
+                                <span>Слов выучено</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-settings">
+                            <div class="setting-item">
+                                <span>Тёмная тема</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="theme-toggle" onchange="toggleTheme()" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <button class="btn-premium">
+                                👑 Сменить тарифный план (Premium)
+                            </button>
+
+                            <button class="btn-logout" onclick="logout()">
+                                Выйти
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM NAVIGATION -->
+                <nav class="bottom-nav">
+                    <button class="nav-item active" onclick="switchTab('tab-learning')">
+                        <span class="nav-icon">🎓</span>
+                        <span class="nav-label">Обучение</span>
+                    </button>
+                    <button class="nav-item" onclick="switchTab('tab-dictionary')">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-label">Справочник</span>
+                    </button>
+                    <button class="nav-item" onclick="switchTab('tab-profile')">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">Профиль</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- MODAL: SUBJECT SELECTION -->
+            <div id="modal-subject" class="modal">
+                <div class="modal-content">
+                    <button class="close-modal" onclick="closeModal('modal-subject')">✕</button>
+                    <h2>Выберите предмет</h2>
+                    <div class="subject-grid">
+                        <button class="subject-card" onclick="selectSubject('biology')">
+                            <div class="subj-icon">🧬</div>
+                            <span>Биология</span>
+                        </button>
+                        <button class="subject-card" onclick="selectSubject('math')">
+                            <div class="subj-icon">📐</div>
+                            <span>Математика</span>
+                        </button>
+                        <button class="subject-card" onclick="selectSubject('chemistry')">
+                            <div class="subj-icon">🧪</div>
+                            <span>Химия</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: TOPIC SELECTION -->
+            <div id="modal-topic" class="modal">
+                <div class="modal-content">
+                    <button class="close-modal" onclick="closeModal('modal-topic')">✕</button>
+                    <h2 id="topic-modal-title">Темы</h2>
+                    <div class="topic-list" id="topic-list-container">
+                        <!-- JS Rendered -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: TEST ENGINE -->
+            <div id="modal-test" class="modal full-modal">
+                <div class="test-header">
+                    <button class="close-test" onclick="closeModal('modal-test')">✕</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="test-progress"></div>
+                    </div>
+                </div>
+                
+                <div class="test-body" id="test-question-container">
+                    <!-- JS Rendered -->
+                </div>
+
+                <div class="test-footer">
+                    <button class="btn-check" id="btn-check-answer" onclick="checkAnswer()">Проверить</button>
+                </div>
+                
+                <!-- Feedback Overlay (Correct/Incorrect) -->
+                <div id="test-feedback" class="feedback-overlay hidden">
+                    <div class="feedback-content">
+                        <h3 id="feedback-title">Правильно!</h3>
+                        <p id="feedback-desc">Stożek — это Конус.</p>
+                    </div>
+                    <button class="btn-continue-test" onclick="nextQuestion()">Дальше</button>
+                </div>
+            </div>
+
+            <!-- MODAL: TEST SUCCESS -->
+            <div id="modal-success" class="modal full-modal success-modal">
+                <div class="success-content">
+                    <div class="success-icon">🎉</div>
+                    <h2>Урок пройден!</h2>
+                    <p>Вы отлично справились и заработали +10 очков.</p>
+                    <div class="streak-bonus">
+                        🔥 +1 к серии!
+                    </div>
+                    <button class="btn-primary" onclick="finishTest()">Продолжить</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
