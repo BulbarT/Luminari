@@ -1,48 +1,19 @@
 import { useState } from 'react'
 
-// Simple SVG Icons
-const HomeIcon = ({ active }) => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill={active ? "var(--primary-cyan)" : "var(--text-muted)"}>
-    <path d="M12 3l-10 9h3v9h14v-9h3L12 3z" />
-  </svg>
-)
-
-const SheetsIcon = ({ active }) => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill={active ? "var(--primary-cyan)" : "var(--text-muted)"}>
-    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-  </svg>
-)
-
-const FlameIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-    <path d="M12 2C8 6 5 9.5 5 14c0 3.87 3.13 7 7 7s7-3.13 7-7c0-4.5-3-8-7-12zm0 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
-  </svg>
-)
-
-const SparklesIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-    <path d="M10 2l1.5 5.5L17 9l-5.5 1.5L10 16 8.5 10.5 3 9l5.5-1.5zM20 12l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/>
-  </svg>
-)
-
-const SettingsIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="3"></circle>
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-  </svg>
-)
-
 const HomeTab = ({ user, onLogout }) => {
   return (
     <div className="fade-in" style={{ padding: '30px 20px', paddingBottom: '100px', overflowY: 'auto', height: '100%' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#d9d9d9' }}></div>
+          <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#2a3a5c' }}></div>
           <h2 style={{ fontSize: '22px', fontWeight: '600' }}>Cześć, {user.name}!</h2>
         </div>
-        <div onClick={onLogout} style={{ cursor: 'pointer' }}>
-          <SettingsIcon />
+        <div onClick={onLogout} style={{ cursor: 'pointer', opacity: 0.7 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
         </div>
       </div>
 
@@ -59,12 +30,12 @@ const HomeTab = ({ user, onLogout }) => {
 
       {/* Stats Blocks */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px' }}>
-        <div className="glass-panel" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <FlameIcon />
+        <div className="glass-panel" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <img src="/FireStreak.svg" alt="streak" style={{ width: '28px', height: '28px', flexShrink: 0 }} />
           <span style={{ fontSize: '18px', fontWeight: '600' }}>10 <span style={{ fontSize: '14px', fontWeight: '400', color: 'var(--text-muted)' }}>dni z rzędu</span></span>
         </div>
-        <div className="glass-panel" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <SparklesIcon />
+        <div className="glass-panel" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <img src="/Stars.svg" alt="stars" style={{ width: '28px', height: '28px', flexShrink: 0 }} />
           <span style={{ fontSize: '18px', fontWeight: '600' }}>15 <span style={{ fontSize: '14px', fontWeight: '400', color: 'var(--text-muted)' }}>tematów ukończono</span></span>
         </div>
       </div>
@@ -91,6 +62,7 @@ const HomeTab = ({ user, onLogout }) => {
 
 const DictionaryTab = () => (
   <div className="fade-in" style={{ padding: '30px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+    <img src="/Notes.svg" alt="dictionary" style={{ width: '60px', height: '60px', marginBottom: '20px', opacity: 0.7 }} />
     <h2 style={{ marginBottom: '10px' }}>Słownik</h2>
     <p style={{ color: 'var(--text-muted)' }}>(Словарь в разработке)</p>
   </div>
@@ -118,24 +90,58 @@ export default function MainScreen({ user, onLogout }) {
         backdropFilter: 'blur(15px)',
         borderTop: '1px solid var(--border-glass)',
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        padding: '0 30px',
-        gap: '40px',
+        padding: '0 20px',
         borderBottomLeftRadius: '40px',
         borderBottomRightRadius: '40px'
       }}>
-        <button 
+        <button
           onClick={() => setActiveTab('home')}
-          style={{ background: 'transparent', padding: '10px' }}
+          style={{
+            background: 'transparent',
+            padding: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            opacity: activeTab === 'home' ? 1 : 0.4,
+            transition: 'opacity 0.2s ease'
+          }}
         >
-          <HomeIcon active={activeTab === 'home'} />
+          <img src="/House.svg" alt="home" style={{ width: '28px', height: '28px', filter: activeTab === 'home' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
         </button>
-        <button 
+
+        <button
           onClick={() => setActiveTab('dictionary')}
-          style={{ background: 'transparent', padding: '10px' }}
+          style={{
+            background: 'transparent',
+            padding: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            opacity: activeTab === 'dictionary' ? 1 : 0.4,
+            transition: 'opacity 0.2s ease'
+          }}
         >
-          <SheetsIcon active={activeTab === 'dictionary'} />
+          <img src="/Notes.svg" alt="dictionary" style={{ width: '28px', height: '28px', filter: activeTab === 'dictionary' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
+        </button>
+
+        <button
+          onClick={() => setActiveTab('lectures')}
+          style={{
+            background: 'transparent',
+            padding: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            opacity: activeTab === 'lectures' ? 1 : 0.4,
+            transition: 'opacity 0.2s ease'
+          }}
+        >
+          <img src="/Lectures.svg" alt="lectures" style={{ width: '28px', height: '28px', filter: activeTab === 'lectures' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
         </button>
       </div>
     </div>

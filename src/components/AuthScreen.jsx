@@ -1,15 +1,7 @@
 import { useState } from 'react'
 
 const Logo = () => (
-  <svg viewBox="0 0 100 100" width="80" height="80" style={{ display: 'block', margin: '0 auto 20px' }}>
-    <line x1="30" y1="50" x2="70" y2="25" stroke="#00e5ff" strokeWidth="6" strokeLinecap="round" opacity="0.8"/>
-    <line x1="30" y1="50" x2="75" y2="50" stroke="#00e5ff" strokeWidth="6" strokeLinecap="round" opacity="0.8"/>
-    <line x1="30" y1="50" x2="70" y2="75" stroke="#00e5ff" strokeWidth="6" strokeLinecap="round" opacity="0.8"/>
-    <circle cx="30" cy="50" r="16" fill="#0066ff" filter="drop-shadow(0 0 8px rgba(0, 102, 255, 0.8))"/>
-    <circle cx="70" cy="25" r="9" fill="#00e5ff" filter="drop-shadow(0 0 4px rgba(0, 229, 255, 0.6))"/>
-    <circle cx="75" cy="50" r="9" fill="#00e5ff" filter="drop-shadow(0 0 4px rgba(0, 229, 255, 0.6))"/>
-    <circle cx="70" cy="75" r="9" fill="#00e5ff" filter="drop-shadow(0 0 4px rgba(0, 229, 255, 0.6))"/>
-  </svg>
+  <img src="/Logo.svg" alt="Luminari Logo" style={{ display: 'block', margin: '0 auto 20px', width: '80px', height: '80px' }} />
 );
 
 export default function AuthScreen({ onLogin }) {
