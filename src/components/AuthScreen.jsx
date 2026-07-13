@@ -11,12 +11,13 @@ export default function AuthScreen({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onLogin(name || 'Вальд', role || 'Студент')
+    onLogin(name, role)
   }
 
   return (
     <div style={{ padding: '60px 30px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative' }}>
+        <div onClick={() => onLogin('Тест', 'Студент')} style={{position: 'absolute', top: '-40px', right: '0', cursor: 'pointer', fontSize: '24px', opacity: 0.5}} title="Пропустить">➔</div>
         <Logo />
         <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>Luminári</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Pomóżmy uczniom naprawdę zrozumieć!</p>
@@ -86,7 +87,7 @@ export default function AuthScreen({ onLogin }) {
         }}>
           <div className="input-group">
             <label>Имя</label>
-            <input type="text" className="input-glass" placeholder="Вальд" value={name} onChange={e => setName(e.target.value)} required={!isLogin} />
+            <input type="text" className="input-glass" placeholder="Ваше имя" value={name} onChange={e => setName(e.target.value)} required={!isLogin} />
           </div>
           <div className="input-group">
             <label>Кто вы?</label>

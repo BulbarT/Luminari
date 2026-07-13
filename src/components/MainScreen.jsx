@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const HomeTab = ({ user, onLogout }) => {
+const HomeTab = ({ user, setActiveTab }) => {
   return (
     <div className="fade-in" style={{ padding: '30px 20px', paddingBottom: '100px', overflowY: 'auto', height: '100%' }}>
       {/* Header */}
@@ -9,7 +9,7 @@ const HomeTab = ({ user, onLogout }) => {
           <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#2a3a5c' }}></div>
           <h2 style={{ fontSize: '22px', fontWeight: '600' }}>Cześć, {user.name}!</h2>
         </div>
-        <div onClick={onLogout} style={{ cursor: 'pointer', opacity: 0.7 }}>
+        <div onClick={() => setActiveTab('profile')} style={{ cursor: 'pointer', opacity: 0.7 }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -62,21 +62,104 @@ const HomeTab = ({ user, onLogout }) => {
 
 const DictionaryTab = () => (
   <div className="fade-in" style={{ padding: '30px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-    <img src="/Notes.svg" alt="dictionary" style={{ width: '60px', height: '60px', marginBottom: '20px', opacity: 0.7 }} />
+    <img src="/Notes.svg" alt="dictionary" style={{ width: '60px', height: '60px', marginBottom: '20px', opacity: 0.7, filter: 'invert(1)' }} />
     <h2 style={{ marginBottom: '10px' }}>Słownik</h2>
     <p style={{ color: 'var(--text-muted)' }}>(Словарь в разработке)</p>
+  </div>
+)
+
+const ChatBotTab = () => (
+  <div className="fade-in" style={{ padding: '30px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+    <img src="/ChatBot.svg" alt="chatbot" style={{ width: '60px', height: '60px', marginBottom: '20px', opacity: 0.7, filter: 'invert(1)' }} />
+    <h2 style={{ marginBottom: '10px' }}>ChatBot</h2>
+    <p style={{ color: 'var(--text-muted)' }}>(Чат-бот в разработке)</p>
+  </div>
+)
+
+const ProfileTab = ({ user, onLogout }) => (
+  <div className="fade-in" style={{ padding: '30px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', overflowY: 'auto', paddingBottom: '100px' }}>
+    
+    <div style={{
+      width: '100px', height: '100px', borderRadius: '50%', backgroundColor: '#2a3a5c', marginBottom: '16px',
+      boxShadow: '0 0 20px rgba(0,229,255,0.4)', border: '2px solid var(--primary-cyan)',
+      display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', position: 'relative'
+    }}>
+      {/* Icon of photo for changing theme later */}
+      <div style={{
+        position: 'absolute', bottom: '0', width: '100%', height: '35%', background: 'rgba(0,0,0,0.5)',
+        display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+      </div>
+    </div>
+    
+    <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '40px' }}>Imię: {user.name}</h2>
+    
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      {[
+        { label: 'Edytuj profil', action: () => {} },
+        { label: 'Osiągnięcia', action: () => {} },
+        { label: 'Ustawienia', action: () => {} },
+        { label: 'Wyloguj się', action: onLogout }
+      ].map((item, idx) => (
+        <div key={idx} onClick={item.action} className="glass-panel" style={{
+          padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer',
+          transition: 'background 0.2s'
+        }}>
+          <span style={{ fontSize: '18px', fontWeight: '500' }}>{item.label}</span>
+          <span style={{ fontSize: '24px', opacity: 0.5 }}>›</span>
+        </div>
+      ))}
+    </div>
   </div>
 )
 
 export default function MainScreen({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('home')
 
+  const NavIcon = ({ tabId, src }) => {
+    const isActive = activeTab === tabId;
+    return (
+      <button
+        onClick={() => setActiveTab(tabId)}
+        style={{
+          background: 'transparent', padding: '10px',
+          opacity: isActive ? 1 : 0.85,
+          transition: 'all 0.2s ease',
+          cursor: 'pointer'
+        }}
+      >
+        <div style={{
+          width: '28px', height: '28px',
+          backgroundColor: isActive ? 'var(--primary-cyan)' : '#ffffff',
+          WebkitMaskImage: `url(${src})`,
+          WebkitMaskSize: 'contain',
+          WebkitMaskRepeat: 'no-repeat',
+          WebkitMaskPosition: 'center',
+          maskImage: `url(${src})`,
+          maskSize: 'contain',
+          maskRepeat: 'no-repeat',
+          maskPosition: 'center',
+          filter: isActive ? 'drop-shadow(0 0 10px rgba(0,229,255,0.9)) drop-shadow(0 0 4px rgba(0,229,255,0.5))' : 'none',
+          transition: 'all 0.2s ease'
+        }} />
+      </button>
+    )
+  }
+
   return (
     <div style={{ height: '100%', position: 'relative' }}>
       
       <div style={{ height: '100%' }}>
-        {activeTab === 'home' && <HomeTab user={user} onLogout={onLogout} />}
+        {activeTab === 'home' && <HomeTab user={user} setActiveTab={setActiveTab} />}
+        {activeTab === 'lectures' && <div className="fade-in" style={{padding: '30px', textAlign: 'center'}}><h2>Wykłady</h2></div>}
         {activeTab === 'dictionary' && <DictionaryTab />}
+        {activeTab === 'chatbot' && <ChatBotTab />}
+        {activeTab === 'profile' && <ProfileTab user={user} onLogout={onLogout} />}
       </div>
 
       {/* Bottom Navigation */}
@@ -90,59 +173,17 @@ export default function MainScreen({ user, onLogout }) {
         backdropFilter: 'blur(15px)',
         borderTop: '1px solid var(--border-glass)',
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 20px',
+        padding: '0 25px',
         borderBottomLeftRadius: '40px',
         borderBottomRightRadius: '40px'
       }}>
-        <button
-          onClick={() => setActiveTab('home')}
-          style={{
-            background: 'transparent',
-            padding: '10px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            opacity: activeTab === 'home' ? 1 : 0.4,
-            transition: 'opacity 0.2s ease'
-          }}
-        >
-          <img src="/House.svg" alt="home" style={{ width: '28px', height: '28px', filter: activeTab === 'home' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
-        </button>
-
-        <button
-          onClick={() => setActiveTab('dictionary')}
-          style={{
-            background: 'transparent',
-            padding: '10px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            opacity: activeTab === 'dictionary' ? 1 : 0.4,
-            transition: 'opacity 0.2s ease'
-          }}
-        >
-          <img src="/Notes.svg" alt="dictionary" style={{ width: '28px', height: '28px', filter: activeTab === 'dictionary' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
-        </button>
-
-        <button
-          onClick={() => setActiveTab('lectures')}
-          style={{
-            background: 'transparent',
-            padding: '10px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            opacity: activeTab === 'lectures' ? 1 : 0.4,
-            transition: 'opacity 0.2s ease'
-          }}
-        >
-          <img src="/Lectures.svg" alt="lectures" style={{ width: '28px', height: '28px', filter: activeTab === 'lectures' ? 'invert(60%) sepia(90%) saturate(500%) hue-rotate(160deg)' : 'invert(1)' }} />
-        </button>
+        <NavIcon tabId="home" src="/House.svg" />
+        <NavIcon tabId="lectures" src="/Lectures.svg" />
+        <NavIcon tabId="dictionary" src="/Notes.svg" />
+        <NavIcon tabId="chatbot" src="/ChatBot.svg" />
+        <NavIcon tabId="profile" src="/PSettings.svg" />
       </div>
     </div>
   )
