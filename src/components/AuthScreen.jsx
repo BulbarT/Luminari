@@ -17,7 +17,10 @@ export default function AuthScreen({ onLogin, t, language, setLanguage }) {
   const [nickname, setNickname] = useState('')
   const [profilePic, setProfilePic] = useState(null) // Can be a data URL or hex color
 
-  // Photo selection menu state
+  /// Photo selection menu state
+  const [showPhotoMenu, setShowPhotoMenu] = useState(false)
+
+  // Language menu state
   const [showLanguageMenu, setShowLanguageMenu] = useState(false)
   const [langSearch, setLangSearch] = useState('')
 
@@ -218,8 +221,82 @@ export default function AuthScreen({ onLogin, t, language, setLanguage }) {
   return (
     <div style={{ padding: '60px 30px', display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative' }}>
-        <div onClick={() => onLogin('Name', 'Nickname', 'Role', null)} style={{ position: 'absolute', top: '-40px', right: '0', cursor: 'pointer', fontSize: '24px', opacity: 0.5 }} title="Пропустить">➔</div>
+        <div onClick={() => onLogin('Name', 'Nickname', 'Role', null)}
+         style={{ position: 'absolute', top: '-40px', right: '0', cursor: 'pointer', fontSize: '24px', opacity: 0.5 }} title="Пропустить">➔</div>
+         <div
+          onClick={() => setShowLanguageMenu(true)}
+          style={{ position: 'absolute', top: '-40px', left: '0', cursor: 'pointer', fontSize: '22px', opacity: 0.7, color: 'var(--text-main)' }}
+          title="Zmień język"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/>
+  <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/>
+  <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/>
+  <circle cx="12" cy="12" r="10"/>
+</svg>
+        </div>
         <Logo />
+        {showLanguageMenu && (
+        <div
+          onClick={() => setShowLanguageMenu(false)}
+          style={{
+            position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+            background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)',
+            zIndex: 500, display: 'flex', justifyContent: 'flex-end'
+          }}
+        >
+          <style>{`
+            @keyframes slideInPanel {
+              0% { transform: translateX(100%); }
+              100% { transform: translateX(0); }
+            }
+          `}</style>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '85%', height: '100%', background: 'var(--bg-dark)',
+              animation: 'slideInPanel 0.3s ease-out',
+              padding: '30px 20px', display: 'flex', flexDirection: 'column',
+              boxShadow: '-10px 0 30px rgba(0,0,0,0.5)'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+              <span
+                onClick={() => setShowLanguageMenu(false)}
+                style={{ fontSize: '24px', cursor: 'pointer', opacity: 0.7 }}
+              >
+                ✕
+              </span>
+            </div>
+
+            <input
+              type="text"
+              className="input-glass"
+              placeholder="Szukaj języka..."
+              value={langSearch}
+              onChange={(e) => setLangSearch(e.target.value)}
+              style={{ marginBottom: '20px' }}
+            />
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {filteredLanguages.map(lang => (
+                <div
+                  key={lang.code}
+                  onClick={() => { setLanguage(lang.code); setShowLanguageMenu(false) }}
+                  className="glass-panel"
+                  style={{
+                    padding: '16px', textAlign: 'center', cursor: 'pointer',
+                    border: language === lang.code ? '2px solid var(--primary-cyan)' : '1px solid var(--border-glass)',
+                    background: language === lang.code ? 'rgba(0, 229, 255, 0.1)' : 'var(--bg-glass)',
+                  }}
+                >
+                  {lang.name}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
         <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>Luminári</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Pomóżmy uczniom naprawdę zrozumieć!</p>
       </div>
