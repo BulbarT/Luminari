@@ -4,10 +4,10 @@ import MainScreen from './components/MainScreen'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState({ name: '', role: '' })
+  const [user, setUser] = useState({ name: '', role: '', profilePic: null })
 
-  const handleLogin = (name, role) => {
-    setUser({ name, role })
+  const handleLogin = (name, role, profilePic = null) => {
+    setUser({ name, role, profilePic })
     setIsAuthenticated(true)
   }
 

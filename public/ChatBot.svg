@@ -1,9 +1,8 @@
-<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="39" height="39" fill="url(#pattern0_90_937)"/>
-<defs>
-<pattern id="pattern0_90_937" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_90_937" transform="scale(0.0416667)"/>
-</pattern>
-<image id="image0_90_937" width="24" height="24" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA2ElEQVR4nN2VSw6CMBBA2ehGPJIHwBsBSxH1moKsTVy5emaSLhD6GWgTE99ymM5rhylk2d8BbIEbMKDnAVxlrUYgiWu5aARLdj5l0AiiyH4iAI5A51hTAjugCsTGSK1iLHAVF3KTs8cfm3LXtqWSgkAdiM1I1ncX2hYlERTSM0deabuh5sZXKkFgTHPPSM9e8riGVlB5TlCnECxCI5Av41o6jeAcIWg0Ault45kqG5J7AjZBQQqIFQAt8JQpsjw7mPp9jOBlbdQ3bYxABuHtKNybE4b/zyn4AJ19B7ddZeIuAAAAAElFTkSuQmCC"/>
-</defs>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.9999 10V3.33337H13.3333" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25 18.3333V21.6666" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3.33325 20H6.66659" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M33.3333 20H36.6666" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M33.3334 26.6667C33.3334 27.5507 32.9822 28.3986 32.3571 29.0237C31.732 29.6488 30.8841 30 30.0001 30H14.7134C13.8294 30.0002 12.9817 30.3515 12.3567 30.9767L8.68675 34.6467C8.52126 34.8121 8.31042 34.9248 8.0809 34.9705C7.85137 35.0161 7.61347 34.9927 7.39726 34.9031C7.18105 34.8136 6.99625 34.6619 6.86622 34.4673C6.7362 34.2728 6.66678 34.044 6.66675 33.81V13.3333C6.66675 12.4493 7.01794 11.6014 7.64306 10.9763C8.26818 10.3512 9.11603 10 10.0001 10H30.0001C30.8841 10 31.732 10.3512 32.3571 10.9763C32.9822 11.6014 33.3334 12.4493 33.3334 13.3333V26.6667Z" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 18.3333V21.6666" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

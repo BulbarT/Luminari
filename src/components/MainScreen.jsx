@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const HomeTab = ({ user, setActiveTab }) => {
   return (
@@ -6,7 +6,12 @@ const HomeTab = ({ user, setActiveTab }) => {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#2a3a5c' }}></div>
+          <div style={{ 
+            width: '50px', height: '50px', borderRadius: '50%', 
+            backgroundColor: user.profilePic && user.profilePic.startsWith('#') ? user.profilePic : '#2a3a5c',
+            backgroundImage: user.profilePic && user.profilePic.startsWith('blob') ? `url(${user.profilePic})` : 'none',
+            backgroundSize: 'cover', backgroundPosition: 'center'
+          }}></div>
           <h2 style={{ fontSize: '22px', fontWeight: '600' }}>Cześć, {user.name}!</h2>
         </div>
         <div onClick={() => setActiveTab('profile')} style={{ cursor: 'pointer', opacity: 0.7 }}>
@@ -76,25 +81,46 @@ const ChatBotTab = () => (
   </div>
 )
 
-const ProfileTab = ({ user, onLogout }) => (
+const ProfileTab = ({ user, onLogout }) => {
+  const fileInputRef = useRef(null)
+  const [localPic, setLocalPic] = useState(user.profilePic)
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const url = URL.createObjectURL(file)
+      setLocalPic(url)
+      user.profilePic = url // Mutable update for prototype
+    }
+  }
+
+  return (
   <div className="fade-in" style={{ padding: '30px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', overflowY: 'auto', paddingBottom: '100px' }}>
     
     <div style={{
-      width: '100px', height: '100px', borderRadius: '50%', backgroundColor: '#2a3a5c', marginBottom: '16px',
+      width: '100px', height: '100px', borderRadius: '50%', 
+      backgroundColor: localPic && localPic.startsWith('#') ? localPic : '#2a3a5c',
+      backgroundImage: localPic && localPic.startsWith('blob') ? `url(${localPic})` : 'none',
+      backgroundSize: 'cover', backgroundPosition: 'center',
+      marginBottom: '16px',
       boxShadow: '0 0 20px rgba(0,229,255,0.4)', border: '2px solid var(--primary-cyan)',
       display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', position: 'relative'
     }}>
       {/* Icon of photo for changing theme later */}
-      <div style={{
-        position: 'absolute', bottom: '0', width: '100%', height: '35%', background: 'rgba(0,0,0,0.5)',
-        display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'
-      }}>
+      <div 
+        onClick={() => fileInputRef.current.click()}
+        style={{
+          position: 'absolute', bottom: '0', width: '100%', height: '35%', background: 'rgba(0,0,0,0.5)',
+          display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'
+        }}
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
       </div>
+      <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileSelect} style={{ display: 'none' }} />
     </div>
     
     <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '40px' }}>Imię: {user.name}</h2>
@@ -116,7 +142,8 @@ const ProfileTab = ({ user, onLogout }) => (
       ))}
     </div>
   </div>
-)
+  )
+}
 
 export default function MainScreen({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('home')
