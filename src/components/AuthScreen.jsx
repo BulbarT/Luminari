@@ -4,7 +4,7 @@ const Logo = () => (
   <img src="/Logo.svg" alt="Luminari Logo" style={{ display: 'block', margin: '0 auto 20px', width: '80px', height: '80px' }} />
 );
 
-export default function AuthScreen({ onLogin }) {
+export default function AuthScreen({ onLogin, t, language, setLanguage }) {
   const [isLogin, setIsLogin] = useState(true)
 
   // Registration steps: 0 = Auth, 1 = Transition, 2 = Role, 3 = Details
@@ -18,14 +18,24 @@ export default function AuthScreen({ onLogin }) {
   const [profilePic, setProfilePic] = useState(null) // Can be a data URL or hex color
 
   // Photo selection menu state
-  const [showPhotoMenu, setShowPhotoMenu] = useState(false)
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false)
+  const [langSearch, setLangSearch] = useState('')
+
+  const availableLanguages = [
+    { code: 'ru', name: 'Русский' },
+    { code: 'en', name: 'English' },
+  ]
+
+  const filteredLanguages = availableLanguages.filter(lang =>
+    lang.name.toLowerCase().includes(langSearch.toLowerCase())
+  )
   const fileInputRef = useRef(null)
 
   const handleInitialSubmit = (e) => {
     e.preventDefault()
     if (isLogin) {
       // Direct login bypasses wizard
-      onLogin('Пользователь', 'Ученик', null)
+      onLogin('Пользователь', 'Пользователь', 'Ученик', null)
     } else {
       // Start registration wizard transition
       setRegStep(1)
@@ -47,7 +57,7 @@ export default function AuthScreen({ onLogin }) {
 
   const handleFinalSubmit = (e) => {
     e.preventDefault()
-    onLogin(name || nickname, role, profilePic)
+    onLogin(name, nickname, role, profilePic)
   }
 
   const handleFileSelect = (e) => {
@@ -208,11 +218,12 @@ export default function AuthScreen({ onLogin }) {
   return (
     <div style={{ padding: '60px 30px', display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative' }}>
-        <div onClick={() => onLogin('Тест', 'Студент', null)} style={{ position: 'absolute', top: '-40px', right: '0', cursor: 'pointer', fontSize: '24px', opacity: 0.5 }} title="Пропустить">➔</div>
+        <div onClick={() => onLogin('Name', 'Nickname', 'Role', null)} style={{ position: 'absolute', top: '-40px', right: '0', cursor: 'pointer', fontSize: '24px', opacity: 0.5 }} title="Пропустить">➔</div>
         <Logo />
         <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>Luminári</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Pomóżmy uczniom naprawdę zrozumieć!</p>
       </div>
+
 
       <div style={{
         display: 'flex',
@@ -232,7 +243,7 @@ export default function AuthScreen({ onLogin }) {
           }}
           onClick={() => setIsLogin(true)}
         >
-          Вход
+          {t.login}
         </button>
         <button
           style={{
@@ -244,7 +255,7 @@ export default function AuthScreen({ onLogin }) {
           }}
           onClick={() => setIsLogin(false)}
         >
-          Регистрация
+          {t.register}
         </button>
       </div>
 

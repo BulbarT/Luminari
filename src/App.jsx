@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import AuthScreen from './components/AuthScreen'
 import MainScreen from './components/MainScreen'
+import { translations, detectLanguage } from './AllLanguages'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState({ name: '', role: '', profilePic: null })
+  const [user, setUser] = useState({ name: '', nickname: '', role: '', profilePic: null })
+  const [language, setLanguage] = useState(detectLanguage())
+  const t = translations[language]
 
-  const handleLogin = (name, role, profilePic = null) => {
-    setUser({ name, role, profilePic })
+  const handleLogin = (name, nickname, role, profilePic = null) => {
+    setUser({ name, nickname, role, profilePic })
     setIsAuthenticated(true)
   }
 
@@ -20,7 +23,7 @@ function App() {
       <div className="phone-frame">
         <div className="phone-viewport">
           {!isAuthenticated ? (
-            <AuthScreen onLogin={handleLogin} />
+            <AuthScreen onLogin={handleLogin} t={t} language={language} setLanguage={setLanguage} />
           ) : (
             <MainScreen user={user} onLogout={handleLogout} />
           )}

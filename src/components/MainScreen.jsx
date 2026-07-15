@@ -12,7 +12,7 @@ const HomeTab = ({ user, setActiveTab }) => {
             backgroundImage: user.profilePic && user.profilePic.startsWith('blob') ? `url(${user.profilePic})` : 'none',
             backgroundSize: 'cover', backgroundPosition: 'center'
           }}></div>
-          <h2 style={{ fontSize: '22px', fontWeight: '600' }}>Cześć, {user.name}!</h2>
+          <h2 style={{ fontSize: '22px', fontWeight: '600' }}>Cześć, {user.nickname}!</h2>
         </div>
         <div onClick={() => setActiveTab('profile')} style={{ cursor: 'pointer', opacity: 0.7 }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -123,7 +123,7 @@ const ProfileTab = ({ user, onLogout }) => {
       <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileSelect} style={{ display: 'none' }} />
     </div>
     
-    <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '40px' }}>Imię: {user.name}</h2>
+    <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '40px' }}>{user.nickname}</h2>
     
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
       {[
