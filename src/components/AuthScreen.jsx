@@ -27,7 +27,9 @@ export default function AuthScreen({ onLogin, t, language, setLanguage }) {
   const [showProgramMenu, setShowProgramMenu] = useState(false);
   const [programSearch, setProgramSearch] = useState("");
 
-  const availablePrograms = [{ code: "pl", name: "Polska", flag: "🇵🇱" }];
+  const availablePrograms = [
+    { code: "pl", name: "Polska", flagUrl: "https://flagcdn.com/w80/pl.png" },
+  ];
 
   const filteredPrograms = availablePrograms.filter((p) =>
     p.name.toLowerCase().includes(programSearch.toLowerCase()),
@@ -412,7 +414,18 @@ export default function AuthScreen({ onLogin, t, language, setLanguage }) {
           {program ? (
             <>
               <span style={{ fontSize: "28px" }}>
-                {availablePrograms.find((p) => p.code === program)?.flag}
+                <img
+                  src={
+                    availablePrograms.find((p) => p.code === program)?.flagUrl
+                  }
+                  alt=""
+                  style={{
+                    width: "32px",
+                    height: "24px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                  }}
+                />
               </span>
               <span style={{ fontSize: "18px", fontWeight: "500" }}>
                 {availablePrograms.find((p) => p.code === program)?.name}
@@ -494,159 +507,16 @@ export default function AuthScreen({ onLogin, t, language, setLanguage }) {
                         : "1px solid var(--border-glass)",
                   }}
                 >
-                  <span style={{ fontSize: "32px" }}>{p.flag}</span>
-                  <span style={{ fontSize: "13px", textAlign: "center" }}>
-                    {p.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <button
-              className="btn-primary"
-              onClick={() => setShowProgramMenu(false)}
-              style={{ marginTop: "auto", background: "rgba(255,255,255,0.1)" }}
-            >
-              {t.cancel}
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  }
-  // Render Program Selection (Step 4)
-  if (regStep === 4) {
-    return (
-      <div
-        className="fade-in"
-        style={{
-          padding: "40px 30px",
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          justifyContent: "center",
-          position: "relative",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "26px",
-            marginBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          {t.chooseProgramTitle}
-        </h2>
-        <p
-          style={{
-            color: "var(--text-muted)",
-            fontSize: "14px",
-            textAlign: "center",
-            marginBottom: "30px",
-          }}
-        >
-          {t.chooseProgramDesc}
-        </p>
-
-        <div
-          onClick={() => setShowProgramMenu(true)}
-          className="glass-panel"
-          style={{
-            padding: "20px",
-            textAlign: "center",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-          }}
-        >
-          {program ? (
-            <>
-              <span style={{ fontSize: "28px" }}>
-                {availablePrograms.find((p) => p.code === program)?.flag}
-              </span>
-              <span style={{ fontSize: "18px", fontWeight: "500" }}>
-                {availablePrograms.find((p) => p.code === program)?.name}
-              </span>
-            </>
-          ) : (
-            <span style={{ fontSize: "18px", fontWeight: "500" }}>
-              {t.selectProgramBtn}
-            </span>
-          )}
-        </div>
-
-        <button
-          className="btn-primary"
-          onClick={handleProgramFinish}
-          disabled={!program}
-          style={{
-            marginTop: "30px",
-            opacity: program ? 1 : 0.5,
-            transition: "opacity 0.3s",
-          }}
-        >
-          {t.finish}
-        </button>
-
-        {/* Full-screen Country Picker */}
-        {showProgramMenu && (
-          <div
-            className="fade-in"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "var(--bg-dark)",
-              zIndex: 100,
-              padding: "40px 20px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <input
-              type="text"
-              className="input-glass"
-              placeholder={t.searchCountry}
-              value={programSearch}
-              onChange={(e) => setProgramSearch(e.target.value)}
-              style={{ marginBottom: "20px" }}
-            />
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "15px",
-                overflowY: "auto",
-              }}
-            >
-              {filteredPrograms.map((p) => (
-                <div
-                  key={p.code}
-                  onClick={() => {
-                    setProgram(p.code);
-                    setShowProgramMenu(false);
-                  }}
-                  className="glass-panel"
-                  style={{
-                    aspectRatio: "1/1",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    gap: "8px",
-                    border:
-                      program === p.code
-                        ? "2px solid var(--primary-cyan)"
-                        : "1px solid var(--border-glass)",
-                  }}
-                >
-                  <span style={{ fontSize: "32px" }}>{p.flag}</span>
+                  <img
+                    src={p.flagUrl}
+                    alt=""
+                    style={{
+                      width: "48px",
+                      height: "36px",
+                      objectFit: "cover",
+                      borderRadius: "6px",
+                    }}
+                  />
                   <span style={{ fontSize: "13px", textAlign: "center" }}>
                     {p.name}
                   </span>
