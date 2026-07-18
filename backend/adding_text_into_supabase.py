@@ -24,8 +24,8 @@ WORDS_PER_CHUNK = 2300
 
 load_dotenv()
 
-SUPABASE_URL = "https://mahobllmjilwmhpgckys.supabase.co"
-#SUPABASE_KEY = None
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 supabase: Client = create_client(
     SUPABASE_URL,
