@@ -6,6 +6,9 @@ import { translations, detectLanguage } from "./AllLanguages";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({
+    // TODO: uczen_id should eventually come from a real registration record
+    // in the uczniowie table in Supabase
+    uczen_id: 1,
     name: "",
     nickname: "",
     role: "",
@@ -15,7 +18,7 @@ function App() {
   const t = translations[language];
 
   const handleLogin = (name, nickname, role, profilePic = null) => {
-    setUser({ name, nickname, role, profilePic });
+    setUser((prev) => ({ ...prev, name, nickname, role, profilePic }));
     setIsAuthenticated(true);
   };
 

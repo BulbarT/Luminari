@@ -1,4 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import TestScreen from "./TestScreen";
+import TestSummary from "./TestSummary";
 
 const HomeTab = ({ user, setActiveTab, t }) => {
   return (
@@ -214,6 +216,84 @@ const HomeTab = ({ user, setActiveTab, t }) => {
   );
 };
 
+const SubjectsTab = ({ t, onSubjectSelect }) => {
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/przedmioty/");
+        if (!res.ok) throw new Error("Failed to fetch subjects");
+        const data = await res.json();
+        setSubjects(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubjects();
+  }, []);
+
+  return (
+    <div
+      className="fade-in"
+      style={{
+        padding: "30px 20px",
+        paddingBottom: "100px",
+        overflowY: "auto",
+        height: "100%",
+      }}
+    >
+      <h2 style={{ fontSize: "24px", fontWeight: "600", marginBottom: "20px" }}>
+        {t.subjects}
+      </h2>
+      
+      {loading && (
+        <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "40px" }}>
+          {t.loading}
+        </div>
+      )}
+      
+      {error && (
+        <div style={{ textAlign: "center", color: "red", marginTop: "40px" }}>
+          {t.error}
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+          {subjects.map((subject) => (
+            <div
+              key={subject.id}
+              onClick={() => onSubjectSelect(subject.id)}
+              className="glass-panel"
+              style={{
+                padding: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                cursor: "pointer",
+                transition: "transform 0.2s, background 0.2s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            >
+              <span style={{ fontSize: "18px", fontWeight: "500" }}>
+                {subject.nazwa}
+              </span>
+              <span style={{ fontSize: "24px", opacity: 0.5 }}>›</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const DictionaryTab = ({t}) => (
   <div
     className="fade-in"
@@ -402,6 +482,54 @@ const ProfileTab = ({ user, onLogout, t }) => {
 
 export default function MainScreen({ user, onLogout, t }) {
   const [activeTab, setActiveTab] = useState("home");
+  const [testSubjectId, setTestSubjectId] = useState(null);
+  const [testAttemptId, setTestAttemptId] = useState(null);
+  const [finishedAnswers, setFinishedAnswers] = useState(null);
+  const [finishedWrongAnswers, setFinishedWrongAnswers] = useState(null);
+
+  const handleSubjectSelect = (subjectId) => {
+    setTestSubjectId(subjectId);
+    setTestAttemptId(Date.now());
+  };
+
+  const handleTestFinish = (answers, wrongAnswers) => {
+    setFinishedAnswers(answers);
+    setFinishedWrongAnswers(wrongAnswers);
+    setTestSubjectId(null);
+  };
+
+  const handleTestCancel = () => {
+    setTestSubjectId(null);
+  };
+
+  const handleSummaryClose = () => {
+    setFinishedAnswers(null);
+    setFinishedWrongAnswers(null);
+  };
+
+  if (finishedAnswers) {
+    return (
+      <TestSummary
+        answers={finishedAnswers}
+        wrongAnswers={finishedWrongAnswers}
+        userId={user.uczen_id}
+        onClose={handleSummaryClose}
+        t={t}
+      />
+    );
+  }
+
+  if (testSubjectId) {
+    return (
+      <TestScreen 
+        key={`attempt-${testAttemptId}`}
+        przedmiotId={testSubjectId} 
+        onFinish={handleTestFinish} 
+        onCancel={handleTestCancel} 
+        t={t} 
+      />
+    );
+  }
 
   const NavIcon = ({ tabId, src }) => {
     const isActive = activeTab === tabId;
@@ -446,12 +574,7 @@ export default function MainScreen({ user, onLogout, t }) {
           <HomeTab user={user} setActiveTab={setActiveTab} t={t} />
         )}
         {activeTab === "lectures" && (
-          <div
-            className="fade-in"
-            style={{ padding: "30px", textAlign: "center" }}
-          >
-            <h2>{t.lectures}</h2>
-          </div>
+          <SubjectsTab t={t} onSubjectSelect={handleSubjectSelect} />
         )}
         {activeTab === "dictionary" && <DictionaryTab t={t} />}
         {activeTab === "chatbot" && <ChatBotTab t={t} />}

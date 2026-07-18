@@ -9,37 +9,37 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 
+class BladOdpowiedzi(BaseModel):
+    pytanie_id: int
+    odpowiedz_ucznia: str
+
+
 class ProsbaWyjasnienia(BaseModel):
     uczen_id: int
+    bledy: list[BladOdpowiedzi]
 
 
 @router.post("/wyjasnij")
 def wyjasnij_bledy(dane: ProsbaWyjasnienia):
+    if not dane.bledy:
+        return {"wyjasnienie": "Brak błędów do wyjaśnienia — wszystkie odpowiedzi poprawne!"}
+
     uczen = supabase.table("uczniowie") \
         .select("*") \
         .eq("id", dane.uczen_id) \
         .single() \
         .execute().data
 
-    bledy = supabase.table("wyniki_odpowiedzi") \
-        .select("pytanie_id, odpowiedz") \
-        .eq("uczen_id", dane.uczen_id) \
-        .eq("czy_poprawna", False) \
-        .execute().data
-
-    if not bledy:
-        return {"wyjasnienie": "Brak błędów do wyjaśnienia — wszystkie odpowiedzi poprawne!"}
-
     szczegoly = []
-    for b in bledy:
+    for b in dane.bledy:
         pytanie = supabase.table("pytania") \
             .select("tresc, poprawna") \
-            .eq("id", b["pytanie_id"]) \
+            .eq("id", b.pytanie_id) \
             .single() \
             .execute().data
         szczegoly.append({
             "pytanie": pytanie["tresc"],
-            "odpowiedz_ucznia": b["odpowiedz"],
+            "odpowiedz_ucznia": b.odpowiedz_ucznia,
             "poprawna_odpowiedz": pytanie["poprawna"]
         })
 
@@ -49,19 +49,27 @@ def wyjasnij_bledy(dane: ProsbaWyjasnienia):
 Rola: Jesteś cierpliwym korepetytorem dla ucznia szkoły średniej w Polsce.
 
 Kontekst: Uczeń mówi głównie po {jezyk}, ale uczy się w polskiej szkole.
-Poniżej lista pytań, w których uczeń popełnił błąd:
+Poniżej lista pytań, w których uczeń popełnił błąd w TYM konkretnym teście:
 
 {szczegoly}
 
-Zadanie: Wyjaśnij uczniowi, dlaczego jego odpowiedź była błędna i jak
-dojść do poprawnej odpowiedzi, krok po kroku.
+Zadanie: Dla KAŻDEGO pytania z listy wygeneruj blok tekstu DOKŁADNIE w tym
+formacie, nic więcej i nic mniej:
 
-Format: Dla każdego pytania osobny akapit, prosty język, bez żargonu.
-Możesz używać pojedynczych słów po {jezyk}, jeśli to pomoże zrozumieć
-trudny termin, ale główny wyjaśnienie pisz po polsku.
+Pytanie: [tu wklej dokładną treść pytania]
+Twoja odpowiedź: [litera odpowiedzi ucznia]
+Poprawna odpowiedź: [litera poprawnej odpowiedzi]
+Wyjaśnienie: [2-3 zdania prostym językiem, dlaczego poprawna odpowiedź jest
+poprawna, bez żargonu, bez oceniania ucznia]
 
-Granice: Nie oceniaj ucznia, nie mów "źle", tylko wyjaśniaj. Nie pisz nic
-poza matematyką/tematem pytania.
+Oddziel każdy blok pytania od następnego jedną pustą linią. Nie dodawaj
+żadnego wstępu, podsumowania na końcu, ani zdań typu "Mam nadzieję, że to
+pomoże" — tylko same bloki pytań, jeden po drugim.
+
+Format: Zwykły tekst, BEZ Markdown (bez #, bez **, bez gwiazdek, bez
+numerowania listy typu "1.", "2.").
+
+Granice: Nie pisz nic poza matematyką/tematem pytania.
 """
 
     response = client.chat.completions.create(
